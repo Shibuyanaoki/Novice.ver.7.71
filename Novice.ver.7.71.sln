@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Novice.ver.7.71", "Novice.ver.7.71.vcxproj", "{E8D99867-5070-4743-9ECD-FEA4D54EF8BF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8D99867-5070-4743-9ECD-FEA4D54EF8BF}.Debug|x64.ActiveCfg = Debug|x64
+		{E8D99867-5070-4743-9ECD-FEA4D54EF8BF}.Debug|x64.Build.0 = Debug|x64
+		{E8D99867-5070-4743-9ECD-FEA4D54EF8BF}.Release|x64.ActiveCfg = Release|x64
+		{E8D99867-5070-4743-9ECD-FEA4D54EF8BF}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C2392533-9FAC-48C5-964B-807450B39553}
+	EndGlobalSection
+EndGlobal
