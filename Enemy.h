@@ -5,6 +5,9 @@
 #include <time.h>
 class Enemy {
 public:
+
+	Enemy();
+
 	void Initialize();
 
 	void Update();
@@ -12,6 +15,8 @@ public:
 	void Draw();
 
 	bool GameClear();
+
+	void SEFlag();
 
 	int GetLocationCount(int index) {
 		return locationCount[index];
@@ -66,5 +71,7 @@ private:
 	int rock = Novice::LoadTexture("./Resources/bulletG.png");
 	int paper = Novice::LoadTexture("./Resources/bulletP.png");
 	int scissors = Novice::LoadTexture("./Resources/bulletC.png");
+
+	int screaming = Novice::LoadAudio("./Resources/SE/voice_monster.mp3");
 
 };

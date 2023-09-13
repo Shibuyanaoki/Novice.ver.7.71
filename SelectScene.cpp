@@ -1,12 +1,14 @@
 ﻿#include "SelectScene.h"
-#include<Novice.h>
+
 
 SelectScene::SelectScene()
 {
+
 }
 
 SelectScene::~SelectScene()
 {
+
 }
 
 void SelectScene::Initialize()
@@ -63,6 +65,17 @@ void SelectScene::Initialize()
 	color = 255;
 
 	colorFlag_ = false;
+
+
+	isSceneEndEasy = false;
+	isSceneEndNormal = false;
+	isSceneEndHard = false;
+
+	BGM = Novice::LoadAudio("./Resources/BGM/umioiku.mp3");
+	BGM2 = Novice::LoadAudio("./Resources/SE/mente.mp3");
+	rudderSE_ = Novice::LoadAudio("./Resources/SE/rudder.mp3");
+
+
 }
 
 void SelectScene::Update()
@@ -103,16 +116,19 @@ void SelectScene::Update()
 
 		//イージー
 		if (keys[DIK_RETURN] && preKeys[DIK_RETURN] == 0 && selectNumber_ == Easy) {
+			Novice::StopAudio(nowBGM);
 			isSceneEndEasy = true;
 		}
 
 		//ノーマル
 		if (keys[DIK_RETURN] && preKeys[DIK_RETURN] == 0 && selectNumber_ == Normal) {
+			Novice::PlayAudio(BGM2, false, 0.5f);
 			isSceneEndNormal = true;
 		}
 
 		//ハード
 		if (keys[DIK_RETURN] && preKeys[DIK_RETURN] == 0 && selectNumber_ == Hard) {
+			Novice::PlayAudio(BGM2, false, 0.5f);
 			isSceneEndHard = true;
 		}
 	}
@@ -220,12 +236,8 @@ void SelectScene::Draw()
 		//エンターキー
 		Novice::DrawSprite(1150, 615, enter_, 1, 1, 0.0f, 0xffffffff);
 
-		Novice::ScreenPrintf(0, 0, "manualNumber = %d", manualNumber_);
+
 	}
-
-	Novice::ScreenPrintf(0, 20, "manualFlag_ = %d", manualFlag_);
-
-	Novice::ScreenPrintf(0, 60, "color%d", color);
 
 	//暗転用描画
 	Novice::DrawSprite(0, 0, blackOut_, 1, 1, 0.0f, color);
@@ -257,12 +269,15 @@ void SelectScene::rudderRotate()
 void SelectScene::levelSelect()
 {
 	if (keys[DIK_LEFT] && preKeys[DIK_LEFT] == 0) {
+		Novice::PlayAudio(rudderSE_, false, 0.5f);
 		selectNumber_ -= 1;
 		rotateDirection = 1;
 		rotateFlag = true;
 		rotateTimer_ = kRotateTimer;
+
 	}
 	if (keys[DIK_RIGHT] && preKeys[DIK_RIGHT] == 0) {
+		Novice::PlayAudio(rudderSE_,false,0.5f);
 		selectNumber_ += 1;
 		rotateDirection = -1;
 		rotateFlag = true;
@@ -305,4 +320,8 @@ void SelectScene::manualDray()
 	if (manualNumber_ == 3) {
 		Novice::DrawSprite(0, 0, manualImage4_, 1.2f, 1.2f, 0.0f, 0xffffffff);
 	}
+}
+
+void SelectScene::Start() {
+	nowBGM = Novice::PlayAudio(BGM, true, 0.3f);
 }

@@ -1,5 +1,5 @@
 ﻿#include "TitleScene.h"
-#include<Novice.h>
+
 
 TitleScene::TitleScene()
 {
@@ -32,8 +32,41 @@ void TitleScene::Initialize()
 	//大砲のSE
 	cannonSE_ = Novice::LoadAudio("./Resources/SE/cannon.wav");
 
+	BGM = Novice::LoadAudio("./Resources/BGM/wave.mp3");
+
 	// シーンを終わらせるフラグ
 	isSceneEnd = false;
+
+	//暗転用のタイマー
+	blackOutTimer_ = 30;
+
+	//暗転用のタイマー
+	blockOutFlag_ = false;
+
+	//カラー
+	color = 0;
+
+	//タイトルの文字の座標
+	titleCharPosX_ = 0;
+	titleCharPosY_ = -200;
+
+	//小さい文字の座標
+	titleCharBackPosX_ = 500;
+	titleCharBackPosY_ = 800; //320
+
+	//演出の移行のフラグ
+	tltleCharFlag = false;
+
+	// キーを押されたかのフラグ
+	keysFlag = false;
+
+	// SEのフラグ
+	soundsFlag = true;
+
+	//文字のスピード
+	charSpeed = 8;
+	charBackSpeed = -50;
+
 }
 
 void TitleScene::Update()
@@ -84,6 +117,7 @@ void TitleScene::Update()
 
 	//　暗転が終わるとシーン切り替え
 	if (blackOutTimer_ <= 0) {
+		Novice::StopAudio(nowBGM);
 		isSceneEnd = true;
 	}
 
@@ -112,6 +146,7 @@ void TitleScene::Draw()
 
 	//暗転用描画
 	Novice::DrawSprite(0, 0, blackOut_, 1, 1, 0.0f, color);
+
 
 #ifdef _DEBUG
 	Novice::ScreenPrintf(0, 0, "%d", tltleCharFlag);
@@ -147,4 +182,8 @@ void TitleScene::titleDirection()
 			keysFlag = true;
 		}
 	}
+}
+
+void TitleScene::Start() {
+	nowBGM = Novice::PlayAudio(BGM, true, 0.5f);
 }

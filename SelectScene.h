@@ -4,6 +4,7 @@
 #include "MT.h"
 #include <cmath>
 #define _USE_MATH_DEFINES
+#include<Novice.h>
 
 class SelectScene
 {
@@ -33,6 +34,8 @@ public: // メンバ変数
 	/// </summary>
 	void Draw();
 
+	void Start();
+
 	// シーンを終わらせるフラグ
 	bool isSceneEndEasy = false;
 	bool IsSceneEndEasy() { return isSceneEndEasy; }
@@ -43,13 +46,14 @@ public: // メンバ変数
 	bool isSceneEndNormal = false;
 	bool IsSceneEndNormal() { return isSceneEndNormal; }
 	//　シーンが終わったあとの次のシーン(シーンの指定先はScece.hにある)
-	Scene NextSceneNormal() { return Scene::GAME; }
+	Scene NextSceneNormal() { return Scene::SELECT; }
 
 	// シーンを終わらせるフラグ
 	bool isSceneEndHard = false;
 	bool IsSceneEndHard() { return isSceneEndHard; }
 	//　シーンが終わったあとの次のシーン(シーンの指定先はScece.hにある)
-	Scene NextSceneHard() { return Scene::GAME;
+	Scene NextSceneHard() {
+		return Scene::SELECT;
 	}
 
 private:
@@ -180,6 +184,14 @@ private: // メンバ変数
 	int blackOut_ = 0;
 
 	float pi = 3.14f;
+
+	//BGM
+	int BGM = 0; 
+	int BGM2 = 0;
+	//int BGMStop_= Novice::PlayAudio(BGM, true, 0.8f);
+	int nowBGM = 0;
+
+	int rudderSE_ = 0;
 
 };
 

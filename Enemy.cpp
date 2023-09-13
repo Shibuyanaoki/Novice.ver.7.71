@@ -1,9 +1,15 @@
 ﻿#include "Enemy.h"
 
+Enemy::Enemy() {
+	HP = 10;
+	Reset();
+}
+
 void Enemy::Initialize()
 {
 	//ランダム関数
 	srand((unsigned int)time(NULL));
+	
 }
 
 void Enemy::Update()
@@ -62,7 +68,7 @@ void Enemy::Draw()
 		Novice::DrawSprite(0, 0, ika2, 1.7f, 1.5f, 0.0, WHITE);
 	}
 
-	/*Novice::ScreenPrintf(0, 20 * 0, "enemy->HP%d", HP);*/
+
 
 	Novice::DrawSprite((int)enemy[0].x, (int)enemy[0].y, scissors, 1.5, 1.5, 0.0, WHITE);
 	Novice::DrawSprite((int)enemy[1].x, (int)enemy[1].y, paper, 1.5, 1.5, 0.0, WHITE);
@@ -125,10 +131,13 @@ void Enemy::Reset() {
 bool Enemy::GameClear() {
 
 	if (HP <= 0) {
-		HP = 10;
-		Reset();
-
 		return true;
 	}
 	return false;
+}
+
+void Enemy::SEFlag() {
+		
+			Novice::PlayAudio(screaming, false, 0.5f);
+		
 }

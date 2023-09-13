@@ -6,6 +6,8 @@
 #include "Input.h"
 #include "TitleScene.h"
 #include "SelectScene.h"
+#include "GameoverScene.h"
+#include "ClearScene.h"
 
 const char kWindowTitle[] = "学籍番号";
 
@@ -24,12 +26,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	TitleScene* titleScene = new TitleScene;
 	SelectScene* selectScene = new SelectScene;
 	GamePlay* gamePlay = new GamePlay;
+	ClearScene* clearScene = new ClearScene;
+	GameoverScene* gameoverScene = new GameoverScene;
 
 	Scene scene = Scene::TITLE;
 
-	gamePlay->Initialize();
+	
+
 	titleScene->Initialize();
 	selectScene->Initialize();
+	gamePlay->Initialize();
+	clearScene->Initialize();
+	gameoverScene->Initialize();
+
+	titleScene->Start();
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -53,6 +63,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (titleScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーン切り替え
 				scene = titleScene->NextScene();
+				selectScene->Start();
 			}
 
 			break;
@@ -64,6 +75,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (selectScene->IsSceneEndEasy()) {
 				// 次のシーンの値を代入してシーン切り替え
 				scene = selectScene->NextSceneEasy();
+				gamePlay->Start();
 			}
 
 			if (selectScene->IsSceneEndNormal()) {
@@ -94,9 +106,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case Scene::GAMECLEAR:
 
-			Novice::ScreenPrintf(0, 0, "gameclear");
+			clearScene->Update();
 
-			if (input->PushKey(DIK_RETURN)) {
+			if (input->PushKey(DIK_SPACE)) {
+				titleScene->Initialize();
+				selectScene->Initialize();
 				scene = Scene::TITLE;
 			}
 
@@ -104,11 +118,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case Scene::GAMEOVER:
 
-			if (input->PushKey(DIK_RETURN)) {
+			gameoverScene->Update();
+
+			if (input->PushKey(DIK_SPACE)) {
+				selectScene->Initialize();
 				scene = Scene::SELECT;
 			}
-
-			Novice::ScreenPrintf(0, 0, "gameover");
 
 			break;
 
@@ -150,9 +165,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case Scene::GAMECLEAR:
 
+			clearScene->Draw();
+
 			break;
 
 		case Scene::GAMEOVER:
+
+			gameoverScene->Draw();
 
 			break;
 

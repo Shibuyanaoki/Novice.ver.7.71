@@ -1,11 +1,27 @@
 ﻿#include "Bullet.h"
 
+Bullet::Bullet() {
+	HP = 3;
+	Reset();
+}
+
 void Bullet::Initialize() {
 	input_ = Input::GetInstance();
+	Reset();
+	HP = 3;
+
+	button_ = new Button;
+
+	button_->Initialize();
+
 }
 
 void Bullet::Update() {
 
+	/*if (HP <= 4) {
+		HP = 3;
+		Reset();
+	}*/
 
 	if (selectCount == 0 && selectFlag == 0) {
 
@@ -98,31 +114,46 @@ void Bullet::Update() {
 		for (int i = 0; i < 3; i++) {
 			locationCount[i] = 0;
 		}
+
+		resetFlag = 1;
+
 	}
 
 	IsSelectEnd();
-
 }
 
 void Bullet::Draw() {
 
-	if (flag==1) {
-		timer++;
+	if (enterFlag == 1) {
+		enterTimer++;
 	}
 
-	if (timer >= 10) {
-		flag = 0;
-		timer = 0;
+	if (resetFlag == 1) {
+		resetTimer++;
+	}
+
+	if (enterTimer >= 10) {
+		enterFlag = 0;
+		enterTimer = 0;
+		button_->Initialize();
+	}
+
+	if (resetTimer >= 10) {
+		resetTimer = 0;
+		resetFlag = 0;
+		button_->Initialize();
 	}
 
 	Novice::DrawSprite(0, 0, ship, 1, 1, 0.0, WHITE);
 
-	if (flag == 1) {
+	if (enterFlag == 1) {
 		Novice::DrawSprite(0, 0, shipFire, 1, 1, 0.0f, WHITE);
+		button_->EnterUpdate();
 	}
 
-
-	/*Novice::ScreenPrintf(0, 20 * 1, "ship->HP%d", HP);*/
+	if (resetFlag == 1) {
+		button_->ResetUpdate();
+	}
 
 	if (HP >= 3) {
 		Novice::DrawSprite(560, 640, heart, 2, 2, 0.0, WHITE);
@@ -143,16 +174,21 @@ void Bullet::Draw() {
 
 	}
 
-	Novice::DrawSprite(32, 100 + 32 * 16, reset, 1, 1, 0.0, WHITE);
-	Novice::DrawSprite(120, 100 + 32 * 16, enter, 1, 1, 0.0, WHITE);	
+	
+
+	button_->Draw();
 
 }
 
 bool Bullet::IsSelectEnd()
 {
 	if (input_->PushKey(DIK_RETURN)) {
+
 		if (selectCount == 3) {
-			flag = 1;
+			enterFlag = 1;
+			if (!Novice::IsPlayingAudio(cannonSE_)) {
+				Novice::PlayAudio(cannonSE_, false , 0.5f);
+			}
 			return true;
 		}
 
@@ -176,8 +212,6 @@ bool Bullet::GaneOver()
 {
 	if (HP <= 0) {
 		return true;
-		HP = 3;
-		Reset();
 	}
 
 	return false;

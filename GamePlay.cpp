@@ -1,14 +1,20 @@
 #include "GamePlay.h"
 
+GamePlay::GamePlay() {
+	bullet_ = new Bullet;
+	enemy_ = new Enemy;
+}
+
 void GamePlay::Initialize() {
 
 	bullet_ = new Bullet;
 	enemy_ = new Enemy;
 	
-
 	bullet_->Initialize();
 	enemy_->Initialize();
 	
+	BGM = Novice::LoadAudio("./Resources/BGM/GameBGM.mp3");
+
 }
 
 void GamePlay::Update() {
@@ -43,6 +49,7 @@ void GamePlay::Update() {
 			bullet_->GetLocationCount(2) == enemy_->GetLocationCount(2))
 		{
 			enemy_->Damage();
+			enemy_->SEFlag();
 		}
 
 
@@ -65,7 +72,6 @@ void GamePlay::Update() {
 	
 	GameOver();
 	
-
 }
 
 void GamePlay::Draw() {
@@ -86,7 +92,6 @@ void GamePlay::Draw() {
 		animationTimer = 0;
 	}
 
-	/*Novice::ScreenPrintf(0, 20 * 2, "timer%d", timer);*/
 	enemy_->Draw();
 	bullet_->Draw();
 
@@ -97,21 +102,23 @@ void GamePlay::Draw() {
 bool GamePlay::GameOver() {
 
 	if (bullet_->GaneOver() == true) {
+		Novice::StopAudio(nowBGM);
 		return true;
+	}
 
-		timer = 60 * 5;
+	return false;
+}
 
+bool GamePlay::GameClear() {
+	if (enemy_->GameClear() == true) {
+		Novice::StopAudio(nowBGM);
+		return true;
 	}
 
 	return false;
 
 }
 
-bool GamePlay::GameClear() {
-	if (enemy_->GameClear() == true) {
-		return true;
-	}
-
-	return false;
-
+void GamePlay::Start() {
+	nowBGM = Novice::PlayAudio(BGM, true, 0.5f);
 }

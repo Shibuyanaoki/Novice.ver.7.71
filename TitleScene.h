@@ -3,6 +3,7 @@
 //#include <cstdint>
 //自作ファイル
 #include "Scene.h"
+#include<Novice.h>
 
 class TitleScene
 {
@@ -32,6 +33,8 @@ public: // メンバ変数
 	/// </summary>
 	void Draw();
 
+	void Start();
+
 	// シーンを終わらせるフラグ
 	bool isSceneEnd = false;
 	bool IsSceneEnd() { return isSceneEnd; }
@@ -55,7 +58,7 @@ private: // メンバ変数
 
 	//文字の移動先の座標
 	float titleCharEndPosX_ = 0;
-	float titleCharEndPosY_ = 170;
+	float titleCharEndPosY_ = -145;
 
 	//文字のサイズ
 	float titleCharSize = 1;
@@ -103,5 +106,9 @@ private: // メンバ変数
 	const int kPushToEnterTimer_ = 60;
 
 	int pushToEnterTimer_ = kPushToEnterTimer_;
+
+	//BGM
+	int BGM = 0;
+	int nowBGM = 0;
 };
 

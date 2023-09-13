@@ -6,11 +6,16 @@
 class GamePlay
 {
 public:
+
+	GamePlay();
+
 	void Initialize();
 
 	void Update();
 
 	void Draw();
+
+	void Start();
 
 	bool GameOver();
 
@@ -32,6 +37,8 @@ private:
 		{ Novice::LoadTexture("./Resources/sea_2.png") }
 	};
 
+	int BGM = 0;
+	int nowBGM = 0;
 
 };
 
